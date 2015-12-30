@@ -1,0 +1,40 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def springVersion = '4.2.2.RELEASE'
+
+
+
+repositories {
+    //oschina center
+    maven { url 'http://maven.oschina.net/content/groups/public/' }
+    //maven loacl
+    //mavenLocal()
+    //maven center
+    //mavenCentral()
+    //×Ô¶¨Òå
+    //mavenRepo urls: "http://repository.sonatype.org/content/groups/forge/"
+}
+
+dependencies {
+
+    //compile local jar
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile "org.apache.commons:commons-lang3:3.4"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-web:${springVersion}"
+    compile "org.springframework:spring-webmvc:${springVersion}"
+    compile "com.caucho:hessian:4.0.38"
+
+    compile 'javax.servlet:jstl:1.2'
+
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}

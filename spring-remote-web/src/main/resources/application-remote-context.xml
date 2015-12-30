@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!-- enable annotation -->
+    <!--<context:annotation-config/>-->
+
+    <!--<context:component-scan base-package="com.habuma"/>-->
+    <bean id="spitterService" class="com.hei.remote.service.SpitterServiceImpl"/>
+
+    <!-- Remote service use Hessian  -->
+    <bean id="hessianSpitterService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter"
+          p:service-ref="spitterService"
+          p:serviceInterface="com.hei.remote.service.SpitterService" />
+
+    <bean id="urlMapping"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /spitterService=hessianSpitterService
+            </value>
+        </property>
+    </bean>
+
+    <!-- Remote service use Burlap  -->
+    <bean id="burlapSpitterService"
+          class="org.springframework.remoting.caucho.BurlapServiceExporter"
+          p:service-ref="spitterService"
+          p:serviceInterface="com.hei.remote.service.SpitterService" />
+
+    <bean id="urlMapping1"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /spitterService1=burlapSpitterService
+            </value>
+        </property>
+    </bean>
+
+    <!-- Remote service use spring's Http invoker  -->
+    <bean id="httpInvokerSpitterService"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"
+          p:service-ref="spitterService"
+          p:serviceInterface="com.hei.remote.service.SpitterService" />
+
+    <bean id="urlMapping2"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /spitterService2=httpInvokerSpitterService
+            </value>
+        </property>
+    </bean>
+
+</beans>
